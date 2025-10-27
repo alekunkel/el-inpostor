@@ -1,0 +1,96 @@
+/*
+ */
+
+@media (max-width: 768px) {
+  body {
+    /* Mejora la legibilidad y previene zoom automático */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Reduce el tamaño de los encabezados */
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.3rem; }
+
+  /* Botones más grandes y fáciles de tocar */
+  .btn {
+    padding: 18px;
+    font-size: 1.1rem;
+  }
+}
+
+/* === VISTAS (Home, Forms) === */
+@media (max-width: 768px) {
+  
+  /* Contenedor principal de Home */
+  .home-container {
+    padding-top: 40px;
+    /* Usa el 90% del ancho de la pantalla */
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  /* Botones de acción en Home */
+  .botones-accion {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Contenedores de Forms (Crear y Unirse) */
+  .form-container, .unirse-container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  /* Ajuste de inputs en formularios */
+  .form-group input[type="text"],
+  .form-group input[type="number"] {
+    padding: 15px;
+    font-size: 1rem;
+  }
+}
+
+/* === MODAL (Cómo Jugar) === */
+@media (max-width: 768px) {
+  .modal-content {
+    /* Haz el modal casi del ancho de la pantalla */
+    width: 90%;
+    max-width: 90%;
+    padding: 20px;
+    /* Permite scroll si el contenido es muy largo */
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* === SALA DE JUEGO (SalaView) === */
+@media (max-width: 768px) {
+  .sala-container {
+    padding: 10px;
+  }
+
+  /* La tarjeta de rol un poco más pequeña */
+  .tarjeta {
+    width: 280px;
+    height: 180px;
+  }
+
+  .tarjeta-back h1 {
+    font-size: 1.5rem;
+  }
+
+  /* MEJORA IMPORTANTE:
+     El grid de votación pasa de 2 columnas a 1 sola.
+     Esto es mucho más cómodo en un celular.
+  */
+  .grid-votacion {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .btn-votar {
+    padding: 15px;
+  }
+}
