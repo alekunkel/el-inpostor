@@ -49,7 +49,7 @@ export function initSocket() {
     store.playerId = localPlayerId;
   }
 
-  socket = io("http://localhost:3000");
+  socket = io("https://el-impostor-kk9t.onrender.com");
 
   // --- ESCUCHADORES (con sonidos) ---
 

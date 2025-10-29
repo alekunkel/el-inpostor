@@ -13,7 +13,7 @@ const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "https://el-inpostor.vercel.app/",
     methods: ["GET", "POST"]
   }
 });
