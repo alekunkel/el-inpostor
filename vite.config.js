@@ -6,6 +6,11 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    allowedHosts: [
+      'lending-spare-rural-fitting.trycloudflare.com'
+    ],
+  }, // <-- AQUÍ FALTABA LA COMA
   plugins: [
     vue(),
     vueDevTools(),
