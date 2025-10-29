@@ -49,8 +49,10 @@ export function initSocket() {
     store.playerId = localPlayerId;
   }
 
-  socket = io("https://el-impostor-kk9t.onrender.com");
-
+  socket = io("https://el-impostor-kk9t.onrender.com", {
+    timeout: 60000, // 60 segundos de espera
+    transports: ['websocket']
+  });
   // --- ESCUCHADORES (con sonidos) ---
 
   socket.on("connect", () => {
