@@ -1,11 +1,12 @@
-/*
- */
-
 @media (max-width: 768px) {
+
   body {
-    /* Mejora la legibilidad y previene zoom automático */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+  }
+
+  #app-layout {
+    padding: 10px;
   }
 
   /* Reduce el tamaño de los encabezados */
@@ -16,59 +17,58 @@
   /* Botones más grandes y fáciles de tocar */
   .btn {
     padding: 18px;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 
-/* === VISTAS (Home, Forms) === */
+/* =================================
+   VISTAS (Home, Forms)
+   ================================= */
 @media (max-width: 768px) {
-  
-  /* Contenedor principal de Home */
+
   .home-container {
     padding-top: 40px;
-    /* Usa el 90% del ancho de la pantalla */
-    width: 90%;
-    margin: 0 auto;
+    width: 100%;
+  }
+  .home-container h1 {
+    font-size: 3rem;
   }
 
-  /* Botones de acción en Home */
   .botones-accion {
     width: 100%;
     max-width: 100%;
   }
 
-  /* Contenedores de Forms (Crear y Unirse) */
   .form-container, .unirse-container {
-    width: 90%;
+    width: 100%;
     margin: 20px auto;
     padding: 20px;
   }
-
-  /* Ajuste de inputs en formularios */
-  .form-group input[type="text"],
-  .form-group input[type="number"] {
-    padding: 15px;
-    font-size: 1rem;
-  }
 }
 
-/* === MODAL (Cómo Jugar) === */
+/* =================================
+   MODAL (Cómo Jugar)
+   ================================= */
 @media (max-width: 768px) {
   .modal-content {
-    /* Haz el modal casi del ancho de la pantalla */
-    width: 90%;
-    max-width: 90%;
+    width: 95%;
+    max-width: 95%;
     padding: 20px;
     /* Permite scroll si el contenido es muy largo */
     max-height: 80vh;
     overflow-y: auto;
   }
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
 }
 
-/* === SALA DE JUEGO (SalaView) === */
+/* =================================
+   SALA DE JUEGO (SalaView)
+   ================================= */
 @media (max-width: 768px) {
   .sala-container {
-    padding: 10px;
+    padding: 5px;
   }
 
   /* La tarjeta de rol un poco más pequeña */
@@ -80,14 +80,18 @@
   .tarjeta-back h1 {
     font-size: 1.5rem;
   }
+  .palabra-secreta {
+    font-size: 2rem;
+  }
 
-  /* MEJORA IMPORTANTE:
-     El grid de votación pasa de 2 columnas a 1 sola.
-     Esto es mucho más cómodo en un celular.
+  /*
+    MEJORA IMPORTANTE:
+    El grid de votación pasa de 2 columnas a 1 sola.
+    Esto es mucho más cómodo en un celular.
   */
   .grid-votacion {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 10px;
   }
 
   .btn-votar {
