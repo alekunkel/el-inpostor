@@ -25,7 +25,7 @@ let salas = {};
 
 const palabrasJuego = [
   "Casa", "Perro", "Manzana", "Café", "Montaña",
-  "Río", "Puente", "Libro", "Cine", "Playa"
+  "Río", "Puente", "Libro", "Cine", "Playa", "escuela", "micrófono", "teléfono", "auto", "helicóptero", "hospital"
 ];
 
 // --- 4. Funciones de Ayuda ---
@@ -226,13 +226,9 @@ io.on('connection', (socket) => {
     });
   });
 
-  /**
-   * EVENTO: 'votar' (Sin cambios)
-   */
   socket.on('votar', ({ codigoSala, jugadorVotado }) => {
     const sala = salas[codigoSala];
     if (!sala) return;
-    // Esto está bien: la clave es el socket.id (quién votó), el valor es el nombre (por quién votó)
     sala.votos[socket.id] = jugadorVotado;
     const totalVotos = Object.keys(sala.votos).length;
 
@@ -243,14 +239,10 @@ io.on('connection', (socket) => {
     });
   });
 
-  /**
-   * EVENTO: 'finalizarVotacion' (MODIFICADO)
-   */
   socket.on('finalizarVotacion', (codigoSala) => {
     const sala = salas[codigoSala];
     if (!sala || socket.id !== sala.hostId) return;
 
-    // ... (Lógica de conteo sin cambios)
     const conteo = {};
     Object.values(sala.votos).forEach(nombre => {
       conteo[nombre] = (conteo[nombre] || 0) + 1;
@@ -332,30 +324,24 @@ io.on('connection', (socket) => {
             return;
           }
 
-          // El jugador no volvió. Expulsarlo permanentemente.
-          // Volvemos a buscar su índice por si acaso (aunque playerId es más seguro)
           const jugadorIndex = sala.jugadores.findIndex(j => j.playerId === jugador.playerId);
           if (jugadorIndex === -1) return; // Ya fue expulsado por otra lógica
 
           const jugadorEliminado = sala.jugadores.splice(jugadorIndex, 1)[0];
           console.log(`${jugadorEliminado.nombre} se fue permanentemente de ${codigoSala}`);
 
-          // MODIFICADO: Usar playerId
           const indexImpostor = sala.impostorIds.indexOf(jugadorEliminado.playerId);
           if (indexImpostor > -1) {
             sala.impostorIds.splice(indexImpostor, 1);
             console.log(`Un impostor se desconectó de ${codigoSala}`);
 
-            // ... (Lógica de comprobación de victoria, la tenías bien)
             const impostoresVivos = sala.impostorIds.length;
             const tripulantesVivos = sala.jugadores.length - impostoresVivos;
             if (sala.estadoJuego !== 'lobby') {
               if (impostoresVivos === 0) {
                  io.to(codigoSala).emit('juegoTerminado', { /* ... gana tripulante */ });
-                 // ... reset sala
               } else if (impostoresVivos >= tripulantesVivos) {
                  io.to(codigoSala).emit('juegoTerminado', { /* ... gana impostor */ });
-                 // ... reset sala
               }
             }
           }
