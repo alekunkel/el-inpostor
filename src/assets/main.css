@@ -4,17 +4,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 :root {
-  --bg-dark-deep: #1a1a2e;  /* Fondo más oscuro */
-  --bg-dark: #2a2a3e;       /* Fondo de tarjetas */
-  --text-light: #f0f0f5;    /* Texto principal */
-  --text-dim: #a0a0b0;       /* Texto secundario/apagado */
+  --bg-dark-deep: #1a1a2e;
+  /* Fondo más oscuro */
+  --bg-dark: #2a2a3e;
+  /* Fondo de contenedores */
+  --text-light: #f0f0f5;
+  /* Texto principal */
+  --text-dim: #a0a0b0;
+  /* Texto secundario */
 
-  --primary: #00aaff;       /* Azul brillante (Botones principales) */
-  --secondary: #00ffc3;     /* Verde menta (Botones secundarios) */
-  --danger: #ff3d71;        /* Rojo/Rosa (Votación, Errores) */
-  --accent: #ffeb3b;        /* Amarillo (La palabra secreta) */
+  /* Colores de marca */
+  --primary: #00aaff;
+  /* Azul brillante */
+  --secondary: #00ffc3;
+  /* Verde menta */
+  --danger: #ff3d71;
+  /* Rojo/Rosa */
+  --accent: #ffeb3b;
+  /* Amarillo */
 
-  --shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* =================================
@@ -27,7 +36,7 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: var(--bg-dark-deep);
   color: var(--text-light);
   margin: 0;
@@ -36,134 +45,166 @@ body {
 }
 
 #app-layout {
-  max-width: 600px;
+  max-width: 800px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 20px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3 {
   color: #ffffff;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.4rem; }
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
 
 p {
   color: var(--text-dim);
   line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
 /* =================================
-   3. BOTONES
+   3. BOTONES (ALTA LEGIBILIDAD)
    ================================= */
 .btn {
   display: inline-block;
-  padding: 15px 30px;
-  font-size: 1rem;
-  font-weight: 600;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow);
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: scale(0.95);
 }
 
 .btn:disabled {
-  background-color: #555;
-  color: #999;
+  background-color: #4a4a5e;
+  color: #888;
   cursor: not-allowed;
-  transform: none;
   box-shadow: none;
+  transform: none;
 }
 
+/* Primario: Azul */
 .btn-primary {
   background: var(--primary);
-  color: #000;
-}
-.btn-primary:hover:not(:disabled) {
-  background: #fff;
-  color: var(--primary);
-  transform: translateY(-2px);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
+.btn-primary:hover:not(:disabled) {
+  background: #33bbff;
+  box-shadow: 0 0 20px rgba(0, 170, 255, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Secundario: Verde */
 .btn-secondary {
   background: var(--secondary);
-  color: #000;
-}
-.btn-secondary:hover:not(:disabled) {
-  background: #fff;
-  color: var(--secondary);
-  transform: translateY(-2px);
+  color: #0a1f25;
+  /* Texto oscuro para contraste con verde claro */
 }
 
+.btn-secondary:hover:not(:disabled) {
+  background: #55ffdb;
+  box-shadow: 0 0 20px rgba(0, 255, 195, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Peligro: Rojo */
 .btn-danger {
   background: var(--danger);
-  color: #fff;
-}
-.btn-danger:hover:not(:disabled) {
-  background: #fff;
-  color: var(--danger);
-  transform: translateY(-2px);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
+.btn-danger:hover:not(:disabled) {
+  background: #ff6690;
+  box-shadow: 0 0 20px rgba(255, 61, 113, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Link */
 .btn-link {
   background: none;
   box-shadow: none;
-  color: var(--secondary);
+  color: var(--text-dim);
+  font-weight: 400;
+  text-transform: none;
   text-decoration: underline;
   padding: 10px;
+  font-size: 0.9rem;
 }
+
 .btn-link:hover {
   color: #fff;
 }
 
 /* =================================
-   4. FORMULARIOS (Crear/Unirse)
+   4. FORMULARIOS
    ================================= */
-.form-container, .unirse-container {
+.form-container,
+.unirse-container {
   background: var(--bg-dark);
-  padding: 30px;
-  border-radius: 12px;
+  padding: 40px;
+  border-radius: 16px;
   box-shadow: var(--shadow);
   margin-top: 40px;
+  border: 1px solid #3a3a5e;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .form-group label {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-dim);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"] {
+.form-group input {
   background: var(--bg-dark-deep);
   border: 2px solid #444;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 15px;
   color: var(--text-light);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-family: 'Poppins', sans-serif;
   transition: border-color 0.3s;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="number"]:focus {
+.form-group input:focus {
   outline: none;
   border-color: var(--primary);
 }
@@ -171,11 +212,6 @@ p {
 .form-container .btn,
 .unirse-container .btn {
   width: 100%;
-  margin-top: 10px;
-}
-
-.unirse-container .btn-link {
-  margin-top: 20px;
 }
 
 /* =================================
@@ -183,16 +219,16 @@ p {
    ================================= */
 .home-container {
   text-align: center;
-  padding-top: 80px;
+  padding-top: 60px;
 }
 
 .home-container h1 {
-  font-size: 4rem;
-  font-weight: 700;
-  color: transparent;
-  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  font-size: 4.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   background-clip: text;
   -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 30px;
 }
 
 .botones-accion {
@@ -200,7 +236,7 @@ p {
   flex-direction: column;
   gap: 20px;
   max-width: 350px;
-  margin: 50px auto;
+  margin: 0 auto 40px auto;
 }
 
 /* =================================
@@ -212,23 +248,23 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(26, 26, 46, 0.7);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(4px);
   z-index: 1000;
 }
 
 .modal-content {
   background: var(--bg-dark);
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 16px;
   max-width: 500px;
   width: 90%;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-top: 4px solid var(--primary);
+  border-top: 5px solid var(--primary);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 .close-button {
@@ -240,72 +276,53 @@ p {
   font-size: 2.5rem;
   color: var(--text-dim);
   cursor: pointer;
-  transition: color 0.3s;
 }
+
 .close-button:hover {
   color: #fff;
 }
 
-.reglas-seccion {
-  margin-top: 25px;
-}
-.reglas-seccion h3 {
-  color: var(--secondary);
-  border-bottom: 2px solid var(--bg-dark-deep);
-  padding-bottom: 5px;
-}
-.reglas-seccion li {
-  color: var(--text-dim);
-  margin: 10px 0 10px 20px;
-}
-.reglas-seccion li strong {
-  color: var(--text-light);
-}
-
 /* =================================
-   7. VISTA SALA (El Juego)
+   7. VISTA SALA (JUEGO)
    ================================= */
 .sala-container {
   padding: 10px;
 }
 
-/* --- Lobby --- */
-.lista-jugadores {
-  margin: 30px 0;
-}
+/* Lista de Jugadores */
 .lista-jugadores ul {
   list-style: none;
   padding: 0;
+  margin: 20px 0;
 }
+
 .lista-jugadores li {
   background: var(--bg-dark);
   padding: 15px 20px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   border-radius: 8px;
   font-weight: 600;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-.lista-jugadores li span {
-  font-weight: 400;
-  color: var(--text-dim);
+  border-left: 4px solid var(--secondary);
 }
 
-/* --- Tarjeta de Rol (Flip Animation) --- */
+/* Tarjeta de Rol Animada */
 .tarjeta-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
   margin: 30px 0;
 }
+
 .tarjeta {
   background-color: transparent;
-  width: 300px;
-  height: 200px;
+  width: 320px;
+  height: 220px;
   perspective: 1000px;
 }
+
 .tarjeta-inner {
   position: relative;
   width: 100%;
@@ -313,98 +330,99 @@ p {
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
-  box-shadow: var(--shadow);
 }
+
 .tarjeta.flip .tarjeta-inner {
   transform: rotateY(180deg);
 }
-.tarjeta-front, .tarjeta-back {
+
+.tarjeta-front,
+.tarjeta-back {
   position: absolute;
   width: 100%;
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 12px;
+  border-radius: 15px;
   padding: 20px;
-  box-sizing: border-box;
-}
-.tarjeta-front {
-  background: linear-gradient(45deg, var(--bg-dark), #3a3a5e);
-  border: 2px solid var(--bg-dark-deep);
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-dim);
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
+
+.tarjeta-front {
+  background: linear-gradient(135deg, #2a2a3e, #151525);
+  border: 2px solid #444;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+}
+
 .tarjeta-back {
   background: var(--bg-dark);
-  color: #fff;
+  border: 3px solid var(--primary);
   transform: rotateY(180deg);
-  border: 2px solid var(--primary);
 }
+
 .tarjeta-back h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
   color: var(--primary);
 }
-.tarjeta-back div[v-if="store.miRol === 'impostor'"] h1 {
-  color: var(--danger);
-}
+
 .palabra-secreta {
   font-size: 2.5rem;
   color: var(--accent);
-  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   text-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
 }
 
-/* --- Votación --- */
+/* Botones de Votación */
 .grid-votacion {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  margin-top: 20px;
+  margin: 30px 0;
 }
+
 .btn-votar {
   padding: 20px;
   background: var(--bg-dark);
-  border: 2px solid #444;
+  border: 2px solid #555;
   color: var(--text-light);
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.2s;
   cursor: pointer;
 }
+
 .btn-votar:hover:not(:disabled) {
   background: var(--primary);
-  color: #000;
+  color: #fff;
   border-color: var(--primary);
-}
-.btn-votar:disabled {
-  background: var(--bg-dark-deep);
-  color: #666;
-  border-color: #333;
-  opacity: 0.7;
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
 }
 
-/* --- Resultados --- */
+.btn-votar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Resultados */
 .resultado-info {
   background: var(--bg-dark);
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 16px;
   text-align: center;
-  margin-top: 20px;
-}
-
-/* Anulamos los estilos en línea de SalaView.vue para que tomen los de CSS */
-.resultado-info h2[style*="green"] {
-  color: var(--secondary) !important;
-}
-.resultado-info h2[style*="red"] {
-  color: var(--danger) !important;
+  margin: 20px 0;
+  border: 1px solid #444;
 }
 
 .resultado-info h3 strong {
   color: var(--primary);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
