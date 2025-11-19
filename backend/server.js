@@ -169,6 +169,8 @@ io.on('connection', (socket) => {
       eraImpostor
     });
 
+    // NUEVO: limpiar votantesEsperados al finalizar
+    sala.votantesEsperados = [];
     sala.votos = {};
 
     // 6. Comprobar condiciones de Victoria (Basado en vivos)
@@ -202,10 +204,14 @@ io.on('connection', (socket) => {
 
     sala.estadoJuego = 'votando';
     sala.votos = {};
+
+    // NUEVO: registrar quiénes deben votar (los vivos en el inicio de la votación)
+    sala.votantesEsperados = sala.jugadores.filter(j => j.alive).map(j => j.playerId);
+
     io.to(codigoSala).emit('estadoJuegoActualizado', 'votando');
 
     // Informar cuántos vivos hay para calcular la barra de progreso en el frontend
-    const aliveCount = sala.jugadores.filter(j => j.alive).length;
+    const aliveCount = sala.votantesEsperados.length;
     io.to(codigoSala).emit('votacionIniciada', { aliveCount });
   });
 
@@ -321,14 +327,18 @@ io.on('connection', (socket) => {
     if (socket.id !== sala.hostId) return socket.emit('error', 'Solo el Anfitrión puede iniciar.');
 
     const numImpostores = sala.config.numeroImpostores;
-    if (sala.jugadores.length < numImpostores * 2 + 1) {
-      return socket.emit('error', `Faltan jugadores. Mínimo ${numImpostores * 2 + 1}.`);
+
+    // CAMBIO: exigir al menos 4 jugadores además de la lógica de impostores
+    const minimoRequerido = Math.max(4, numImpostores * 2 + 1);
+    if (sala.jugadores.length < minimoRequerido) {
+      return socket.emit('error', `Faltan jugadores. Mínimo ${minimoRequerido}.`);
     }
 
     sala.estadoJuego = 'jugando';
     sala.palabraSecreta = palabrasJuego[Math.floor(Math.random() * palabrasJuego.length)];
     sala.impostorIds = [];
     sala.votos = {};
+    sala.votantesEsperados = []; // asegurar inicialización
 
     // Resetear estado "alive" de todos para nueva partida
     sala.jugadores.forEach(j => { j.alive = true; });
@@ -374,6 +384,11 @@ io.on('connection', (socket) => {
       return socket.emit('error', 'Estás eliminado, no puedes votar.');
     }
 
+    // NUEVO: Solo quienes estaban en la lista de esperados pueden votar
+    if (!Array.isArray(sala.votantesEsperados) || !sala.votantesEsperados.includes(votante.playerId)) {
+      return socket.emit('error', 'No estás habilitado para votar en esta ronda.');
+    }
+
     // Validar objetivo
     if (jugadorVotado && jugadorVotado !== 'skip') {
       const objetivo = sala.jugadores.find(j => j.playerId === jugadorVotado);
@@ -384,10 +399,12 @@ io.on('connection', (socket) => {
       jugadorVotado = 'skip';
     }
 
+    // Guardar voto (no se invalida aquí si el objetivo o votante cambia de estado después)
     sala.votos[votante.playerId] = jugadorVotado;
 
-    const totalVotos = Object.keys(sala.votos).length;
-    const aliveCount = sala.jugadores.filter(j => j.alive).length;
+    // Contar votos respecto a los votantes esperados
+    const totalVotos = Object.keys(sala.votos).filter(pid => sala.votantesEsperados.includes(pid)).length;
+    const aliveCount = sala.votantesEsperados.length;
 
     io.to(codigoSala).emit('votoRecibido', {
       votantePlayerId: votante.playerId,
@@ -395,6 +412,7 @@ io.on('connection', (socket) => {
       aliveCount
     });
 
+    // Auto-finalizar solo cuando hayan votado todos los esperados
     if (totalVotos >= aliveCount) {
       procesarFinVotacion(sala, codigoSala);
     }
@@ -443,8 +461,14 @@ io.on('connection', (socket) => {
           const jugadorEliminado = sala.jugadores.splice(idx, 1)[0];
           console.log(`${jugadorEliminado.nombre} eliminado por desconexión de ${codigoSala}`);
 
-          // Limpiar voto si lo tenía
+          // Limpiar voto si lo tenía (votos emitidos por él ya se cuentan si la votación termina)
           delete sala.votos[jugadorEliminado.playerId];
+
+          // Si existía lista de votantes esperados en una votación en curso, quitarlo de ella
+          if (Array.isArray(sala.votantesEsperados)) {
+            const vi = sala.votantesEsperados.indexOf(jugadorEliminado.playerId);
+            if (vi > -1) sala.votantesEsperados.splice(vi, 1);
+          }
 
           // Si era impostor, actualizar lista
           const indexImpostor = sala.impostorIds.indexOf(jugadorEliminado.playerId);
@@ -465,6 +489,14 @@ io.on('connection', (socket) => {
             }
           }
 
+          // Si estábamos en votación, y la lista de votantes esperados cambió, comprobar si ya se deben contabilizar los votos
+          if (sala.estadoJuego === 'votando' && Array.isArray(sala.votantesEsperados)) {
+            const votosActuales = Object.keys(sala.votos).filter(pid => sala.votantesEsperados.includes(pid)).length;
+            if (votosActuales >= sala.votantesEsperados.length) {
+              procesarFinVotacion(sala, codigoSala);
+            }
+          }
+
           if (sala.jugadores.length === 0) {
             delete salas[codigoSala];
           } else {
@@ -478,6 +510,7 @@ io.on('connection', (socket) => {
       }
     });
   });
+
 });
 
 // --- 6. Iniciar Servidor ---

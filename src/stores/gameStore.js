@@ -4,7 +4,7 @@ export const useGameStore = defineStore('game', {
   state: () => ({
     codigoSala: null,
     miNombre: null,
-    playerId: null, // <-- AÑADIR
+    playerId: null,
     jugadores: [],
     miRol: null,
     palabraSecreta: null,
@@ -16,14 +16,11 @@ export const useGameStore = defineStore('game', {
 
   getters: {
     soyElHost: (state) => {
-      // (Esta lógica sigue funcionando porque el servidor reasigna el host
-      // y la lista de jugadores se actualiza)
       return state.jugadores.length > 0 && state.jugadores[0].nombre === state.miNombre;
     }
   },
 
   actions: {
-    // ACCIÓN NUEVA
     setPlayerId(id) {
       this.playerId = id;
       localStorage.setItem('impostor_playerId', id);
