@@ -13,7 +13,7 @@ const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://el-inpostor.vercel.app/", // Permitir todas las conexiones (útil para desarrollo/túneles)
+    origin: "https://el-impostor-swart.vercel.app/", // Permitir todas las conexiones (útil para desarrollo/túneles)
     methods: ["GET", "POST"]
   }
 });

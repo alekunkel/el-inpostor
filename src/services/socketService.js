@@ -49,7 +49,7 @@ export function initSocket() {
     store.playerId = localPlayerId;
   }
 
-  socket = io("https://el-inpostor.onrender.com", {
+  socket = io("https://el-impostor-2jwe.onrender.com", {
     timeout: 60000, // 60 segundos de espera
     transports: ['websocket']
   });
